@@ -2,15 +2,15 @@ const express = require('express');
 const morgan = require('morgan');
 const app = express();
 
-app.use(morgan('combined'));
+app.use(express.json());
 
-const requestLogger = (req, res, next) => {
-  console.log('Method:', req.method);
-  console.log('Path:  ', req.path);
-  console.log('Body:  ', req.body);
-  console.log('---');
-  next();
-};
+morgan.token('body', function (req, res) {
+  return JSON.stringify(req.body);
+});
+
+const format =
+  ':method :url :status :res[content-length] - :response-time ms :body';
+app.use(morgan(format));
 
 const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: 'unknown endpoint' });
@@ -38,8 +38,6 @@ let persons = [
     number: '39-23-6423122',
   },
 ];
-
-app.use(express.json());
 
 app.get('/api/persons', (req, res) => {
   res.json(persons);
@@ -114,8 +112,6 @@ const contacts = {
 app.get('/info', (req, res) => {
   res.send(`<p>${contacts.content}</p><p>${contacts.date}</p>`);
 });
-
-app.use(requestLogger);
 
 app.use(unknownEndpoint);
 
