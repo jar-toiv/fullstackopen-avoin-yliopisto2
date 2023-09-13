@@ -1,5 +1,20 @@
 const express = require('express');
+const morgan = require('morgan');
 const app = express();
+
+app.use(morgan('combined'));
+
+const requestLogger = (req, res, next) => {
+  console.log('Method:', req.method);
+  console.log('Path:  ', req.path);
+  console.log('Body:  ', req.body);
+  console.log('---');
+  next();
+};
+
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' });
+};
 
 let persons = [
   {
@@ -100,14 +115,11 @@ app.get('/info', (req, res) => {
   res.send(`<p>${contacts.content}</p><p>${contacts.date}</p>`);
 });
 
+app.use(requestLogger);
+
+app.use(unknownEndpoint);
+
 const PORT = 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
-
-/**
- * 
-
-Generoi uuden puhelintiedon tunniste funktiolla Math.random. Käytä riittävän isoa arvoväliä,
- jotta arvottu id on riittävän suurella todennäköisyydellä sellainen, joka ei ole jo käytössä.
- */
