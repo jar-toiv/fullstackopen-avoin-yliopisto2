@@ -50,11 +50,33 @@ app.delete('/api/persons/:id', (req, res) => {
       .status(404)
       .json({ message: 'Not Found: No person with that ID' });
   }
-  //! Updating old array with new, but contant persons object does not allow it. Postman delete url: http://localhost:3001/api/persons/1
   persons = updatedPersons;
 
   res.status(204).end();
   console.log('New Persons array', persons);
+});
+
+app.post('/api/persons', (req, res) => {
+  if (!req.body.name || !req.body.number)
+    res.status(400).json({ message: 'Something went wrong' });
+
+  const randomId = Math.floor(Math.random() * (999 - 0) + 1);
+  const compareRandomId = persons.find((person) => person.id === randomId);
+
+  if (compareRandomId)
+    return res
+      .status(400)
+      .json({ message: 'Something went wrong, please add person again.' });
+
+  const newPersonObj = {
+    id: randomId,
+    name: req.body.name,
+    number: req.body.number,
+  };
+
+  persons.push(newPersonObj);
+
+  res.status(200).json({ message: 'success' });
 });
 
 const contacts = {
@@ -70,3 +92,10 @@ const PORT = 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
+/**
+ * 
+
+Generoi uuden puhelintiedon tunniste funktiolla Math.random. Käytä riittävän isoa arvoväliä,
+ jotta arvottu id on riittävän suurella todennäköisyydellä sellainen, joka ei ole jo käytössä.
+ */
