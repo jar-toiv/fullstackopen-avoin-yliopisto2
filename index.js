@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 
-const persons = [
+let persons = [
   {
     id: 1,
     name: 'Arto Hellas',
@@ -40,6 +40,21 @@ app.get('/api/persons/:id', (req, res) => {
       .json({ message: 'Not Found: No person with that ID' });
 
   res.json(person);
+});
+
+app.delete('/api/persons/:id', (req, res) => {
+  const id = +req.params.id;
+  const updatedPersons = persons.filter((person) => person.id !== id);
+  if (updatedPersons.length === persons.length) {
+    return res
+      .status(404)
+      .json({ message: 'Not Found: No person with that ID' });
+  }
+  //! Updating old array with new, but contant persons object does not allow it. Postman delete url: http://localhost:3001/api/persons/1
+  persons = updatedPersons;
+
+  res.status(204).end();
+  console.log('New Persons array', persons);
 });
 
 const contacts = {
