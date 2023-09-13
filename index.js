@@ -30,6 +30,18 @@ app.get('/api/persons', (req, res) => {
   res.json(persons);
 });
 
+app.get('/api/persons/:id', (req, res) => {
+  const id = +req.params.id;
+  const person = persons.find((person) => person.id === id);
+
+  if (!person)
+    return res
+      .status(404)
+      .json({ message: 'Not Found: No person with that ID' });
+
+  res.json(person);
+});
+
 const contacts = {
   content: `Phonebook has info for ${persons.length} people.`,
   date: new Date().toString(),
