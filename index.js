@@ -57,10 +57,20 @@ app.delete('/api/persons/:id', (req, res) => {
 });
 
 app.post('/api/persons', (req, res) => {
-  if (!req.body.name || !req.body.number)
-    res.status(400).json({ message: 'Something went wrong' });
-
   const randomId = Math.floor(Math.random() * (999 - 0) + 1);
+  const compareNewName = persons.find(
+    (person) =>
+      person.name.toLocaleLowerCase() === req.body.name.toLocaleLowerCase()
+  );
+
+  if (!req.body.name || !req.body.number) {
+    return res.status(400).json({
+      error: 'Add name and number',
+    });
+  }
+  if (compareNewName)
+    return res.status(409).json({ error: 'Name must be unique' });
+
   const compareRandomId = persons.find((person) => person.id === randomId);
 
   if (compareRandomId)
@@ -75,8 +85,10 @@ app.post('/api/persons', (req, res) => {
   };
 
   persons.push(newPersonObj);
-
-  res.status(200).json({ message: 'success' });
+  console.log(persons);
+  res
+    .status(200)
+    .json({ message: 'success', success: 'Person added successfully' });
 });
 
 const contacts = {
