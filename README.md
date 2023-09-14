@@ -1,5 +1,9 @@
 ## This repo contains FullstackOpen course exercises from part 3 Node.js and Express
 
+### Update
+
+Exercise seem to require this be backend while using repo FullstackOpen Avoin Yliopisto - osa2-the-phonebook as a front. Might need to make new repo for this to work.
+
 ## Materiaalin tekijä ja lisenssi
 
 Kurssimateriaalin osat 0-8 ja 13 on tehnyt [Matti Luukkainen](https://github.com/mluukkai).

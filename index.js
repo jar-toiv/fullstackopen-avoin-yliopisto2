@@ -100,10 +100,12 @@ app.post('/api/persons', (req, res) => {
   };
 
   persons.push(newPersonObj);
-  console.log(persons);
-  res
-    .status(200)
-    .json({ message: 'success', success: 'Person added successfully' });
+
+  res.status(200).json({
+    message: 'success',
+    success: 'Person added successfully',
+    contact: newPersonObj,
+  });
 });
 
 const contacts = {
