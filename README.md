@@ -1,10 +1,25 @@
 ## This repo contains FullstackOpen course exercises from part 3 Node.js and Express
 
-URL for Render.com: https://phonebook-backend-bu7w.onrender.com/api/persons
+URL for Render.com: https://phonebook-backend-bu7w.onrender.com
 
 ### Update
 
-Exercise seem to require this be backend while using repo FullstackOpen Avoin Yliopisto - osa2-the-phonebook as a front. Might need to make new repo for this to work.
+Exercise seem to require this be backend while using repo FullstackOpen Avoin Yliopisto - osa2-the-phonebook as a front.
+
+### PROCESS for Render.com Backend and Frontend.
+
+**TIP with render: Set env variable key:PORT and value: (what you want /3001) otherwise port is default 10k**
+Build the front from osa2 the phonebook in the project with command npm run build.
+Take the folder and move it to the backend project folder.
+
+Use Express static to server your Build from the folder.
+**Should be after app.use(express.json())**
+
+```
+app.use(express.static('dist'))
+```
+
+TEST: npm start => go to localhost:3001 should render the webpage.
 
 ## Materiaalin tekijä ja lisenssi
 
