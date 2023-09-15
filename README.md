@@ -22,6 +22,21 @@ app.use(express.static('dist'))
 
 TEST: npm start => go to localhost:3001 should render the webpage.
 
+## MongoDB
+
+Create Cluster if you don't have it, add user and password with privledges.
+Install Compass for easier access and add new connection string that website gave.
+Add creds and connect.
+Create new DB (persons) and Collection(persons) Save.
+
+Create environmental variables for the database in config.env and use it instead some code in index.js
+
+## Mongoose
+
+npm i mongoose
+
+const mongoose = require("mongoose")
+
 ## Materiaalin tekijä ja lisenssi
 
 Kurssimateriaalin osat 0-8 ja 13 on tehnyt [Matti Luukkainen](https://github.com/mluukkai).

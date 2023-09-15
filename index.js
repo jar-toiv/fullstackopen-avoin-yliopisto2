@@ -1,7 +1,12 @@
+require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
+
 const app = express();
+
+const connectToDB = require('./services/mongo');
+const Person = require('./models/personModel');
 
 app.use(express.json());
 
@@ -17,35 +22,16 @@ const format =
 
 app.use(morgan(format));
 
+connectToDB();
+
 const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: 'unknown endpoint' });
 };
 
-let persons = [
-  {
-    id: 1,
-    name: 'Arto Hellas',
-    number: '040-123456',
-  },
-  {
-    id: 2,
-    name: 'Ada Lovelace',
-    number: '39-44-5323523',
-  },
-  {
-    id: 3,
-    name: 'Dan Abramov',
-    number: '12-43-234345',
-  },
-  {
-    id: 4,
-    name: 'Mary Poppendieck',
-    number: '39-23-6423122',
-  },
-];
-
 app.get('/api/persons', (req, res) => {
-  res.json(persons);
+  Person.find({}).then((persons) => {
+    res.json(persons);
+  });
 });
 
 app.get('/api/persons/:id', (req, res) => {
@@ -110,11 +96,6 @@ app.post('/api/persons', (req, res) => {
     contact: newPersonObj,
   });
 });
-
-const contacts = {
-  content: `Phonebook has info for ${persons.length} people.`,
-  date: new Date().toString(),
-};
 
 app.get('/info', (req, res) => {
   res.send(`<p>${contacts.content}</p><p>${contacts.date}</p>`);
