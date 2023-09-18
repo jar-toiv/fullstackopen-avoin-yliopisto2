@@ -12,10 +12,25 @@ module.exports = (err, req, res, next) => {
 };
 
 const sendDevError = (err, res) => {
+  //¤ Wrong ID
   if (err.name === 'CastError') {
     const message = 'Invalid ID format';
     err = new AppError(message, 400);
-  } else if (!err.statusCode) {
+  }
+  //¤ Validation error (Schema)
+  else if (err.name === 'ValidationError') {
+    const message = Object.values(err.errors)
+      .map((val) => val.message)
+      .join('. ');
+    err = new AppError(message, 400);
+  }
+  //¤ Duplicate key
+  else if (err.code === 11000) {
+    const message = 'Duplicate field value';
+    err = new AppError(message, 400);
+  }
+  //¤ No statuscode => expect DB error
+  else if (!err.statusCode) {
     err = new AppError('Database connection error', 500);
   }
 
