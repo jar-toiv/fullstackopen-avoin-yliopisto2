@@ -1,13 +1,13 @@
 const Person = require('../models/personModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/AppError');
+
 /**
  * Opettelin async/await ja AppError luokka menetelmän ~ 30.6.2023 Udemyn kurssilla.
  * - catchAsync menetelmä tekee mielestäni koodista luettavampaa.
  * - AppError taas käsittelee DEV/PROD errorit järkevästi omassa luokassaan ja tekee koodista modulaarisemman
  */
 
-// Exercise 3.18 done
 const getInfo = catchAsync(async (req, res, next) => {
   const contacts = await Person.find({});
 
@@ -28,7 +28,6 @@ const getPersons = catchAsync(async (req, res, next) => {
   res.json(persons);
 });
 
-// Exercise 3.18 done
 const getPersonById = catchAsync(async (req, res, next) => {
   const person = await Person.findById(req.params.id);
 
