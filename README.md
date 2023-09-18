@@ -1,6 +1,6 @@
 ## This repo contains FullstackOpen course exercises from part 3 Node.js and Express
 
-URL for Render.com: https://phonebook-backend-bu7w.onrender.com
+URL for Render.com: https://osa3-phonebook-done.onrender.com
 Remember to wait for Render to give CPU resources for website to show up.
 
 ### Update
