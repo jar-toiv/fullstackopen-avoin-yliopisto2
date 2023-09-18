@@ -18,7 +18,6 @@ const getInfo = catchAsync(async (req, res, next) => {
   res.send(`<p>Phonebook has ${contactsCount} contacts</p><p>${date}</p>`);
 });
 
-// Exercise 3.13 Done
 const getPersons = catchAsync(async (req, res, next) => {
   const persons = await Person.find();
 
@@ -44,6 +43,7 @@ const deletePerson = catchAsync(async (req, res, next) => {
   res.json({ message: 'success' });
 });
 
+// Exercise 3.14 Done
 const createPerson = catchAsync(async (req, res, next) => {
   const person = req.body;
 
