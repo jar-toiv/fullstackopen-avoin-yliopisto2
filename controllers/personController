@@ -7,6 +7,7 @@ const AppError = require('../utils/AppError');
  * - AppError taas käsittelee DEV/PROD errorit järkevästi omassa luokassaan ja tekee koodista modulaarisemman
  */
 
+// Exercise 3.18 done
 const getInfo = catchAsync(async (req, res, next) => {
   const contacts = await Person.find({});
 
@@ -27,6 +28,7 @@ const getPersons = catchAsync(async (req, res, next) => {
   res.json(persons);
 });
 
+// Exercise 3.18 done
 const getPersonById = catchAsync(async (req, res, next) => {
   const person = await Person.findById(req.params.id);
 
@@ -52,7 +54,7 @@ const createPerson = catchAsync(async (req, res, next) => {
   const newPerson = await Person.create(person);
   res.json(newPerson);
 });
-// Exercise 3.17 done
+
 const updatePerson = catchAsync(async (req, res, next) => {
   const { number } = req.body;
   if (!number) return next(new AppError('Add new contact number', 400));
