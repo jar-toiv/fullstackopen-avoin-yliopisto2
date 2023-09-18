@@ -1,0 +1,78 @@
+const Person = require('../models/personModel');
+const catchAsync = require('../utils/catchAsync');
+const AppError = require('../utils/AppError');
+/**
+ * Opettelin async/await ja AppError luokka menetelmän ~ 30.6.2023 Udemyn kurssilla.
+ * - catchAsync menetelmä tekee mielestäni koodista luettavampaa.
+ * - AppError taas käsittelee DEV/PROD errorit järkevästi omassa luokassaan ja tekee koodista modulaarisemman
+ */
+
+const getInfo = catchAsync(async (req, res, next) => {
+  const contacts = await Person.find({});
+
+  if (!contacts) return next(new AppError('Failed to fetch info', 500));
+
+  const contactsCount = contacts.length;
+  const date = new Date().toISOString();
+
+  res.send(`<p>Phonebook has ${contactsCount} contacts</p><p>${date}</p>`);
+});
+
+// Exercise 3.13 Done
+const getPersons = catchAsync(async (req, res, next) => {
+  const persons = await Person.find();
+
+  if (!persons)
+    return next(new AppError('Failed to fetch contacts from Phonebook', 500));
+
+  res.json(persons);
+});
+
+const getPersonById = catchAsync(async (req, res, next) => {
+  const person = await Person.findById(req.params.id);
+
+  if (!person) return next(new AppError('Cannot find person', 404));
+
+  res.json(person);
+});
+
+const deletePerson = catchAsync(async (req, res, next) => {
+  const deletedPerson = await Person.findByIdAndDelete(req.params.id);
+
+  if (!deletedPerson) return next(new AppError('No person found'), 404);
+
+  res.json({ message: 'success' });
+});
+
+const createPerson = catchAsync(async (req, res, next) => {
+  const person = req.body;
+
+  if (!person.name || !person.number)
+    return next(new AppError('Add name or number', 400));
+
+  const newPerson = await Person.create(person);
+  res.json(newPerson);
+});
+
+const updatePerson = catchAsync(async (req, res, next) => {
+  const { name, number } = req.body;
+  if (!number) return next(new AppError('Add new contact number', 400));
+
+  const person = await Person.findById(req.params.id);
+  if (!person) return next(new AppError('Person not found', 404));
+
+  person.number = number;
+
+  const updatedPerson = await person.save();
+
+  res.json(updatedPerson);
+});
+
+module.exports = {
+  getInfo,
+  getPersons,
+  getPersonById,
+  deletePerson,
+  createPerson,
+  updatePerson,
+};
