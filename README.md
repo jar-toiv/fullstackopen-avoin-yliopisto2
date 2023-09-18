@@ -3,9 +3,37 @@
 URL for Render.com: https://osa3-phonebook-done.onrender.com
 Remember to wait for Render to give CPU resources for website to show up.
 
-### Update
+## EsLint
 
-Exercise seem to require this be backend while using repo FullstackOpen Avoin Yliopisto - osa2-the-phonebook as a front.
+npm install eslint --save-dev
+
+npx eslint --init
+
+You can also run this command directly using 'npm init @eslint/config'.
+√ How would you like to use ESLint? · style  
+√ What type of modules does your project use? · commonjs
+√ Which framework does your project use? · none
+√ Does your project use TypeScript? · No / Yes
+√ Where does your code run? · browser
+√ How would you like to define a style for your project? · prompt
+√ What format do you want your config file to be in? · JavaScript
+√ What style of indentation do you use? · tab
+√ What quotes do you use for strings? · single
+√ What line endings do you use? · windows
+√ Do you require semicolons? · No / Yes
+Successfully created .eslintrc.js file in
+
+```
+Konfiguraatiot tallentuvat tiedostoon .eslintrc.js:
+
+module.exports = {
+    'env': {
+        'commonjs': true,
+        'es2021': true,
+        'node': true
+    },
+    'extends': 'eslint:recommended',
+```
 
 ### PROCESS for Render.com Backend and Frontend.
 
