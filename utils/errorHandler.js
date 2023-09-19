@@ -1,6 +1,6 @@
 const AppError = require('../utils/AppError');
 
-module.exports = (err, req, res, next) => {
+module.exports = (err, req, res) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
 
@@ -44,9 +44,21 @@ const sendDevError = (err, res) => {
 
 const sendProdError = (err, res) => {
   if (err.isOperational) {
+    let message = err.message;
+
+    if (err.name === 'ValidationError') {
+      message = 'Validation failed: ' + err.message;
+    } else if (err.name === 'CastError') {
+      message = 'Invalid ID format';
+    } else if (err.code === 11000) {
+      message = 'Duplicate field value';
+    } else if (err.message === 'Database connection error') {
+      message = 'Database connection error. Please try again later.';
+    }
+
     res.status(err.statusCode).json({
       status: err.status,
-      message: err.message,
+      message: message,
     });
   } else {
     console.error('ERROR 💥', err);
