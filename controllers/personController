@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Person = require('../models/personModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/AppError');
@@ -47,11 +48,24 @@ const deletePerson = catchAsync(async (req, res, next) => {
 const createPerson = catchAsync(async (req, res, next) => {
   const person = req.body;
 
-  if (!person.name || !person.number)
+  if (!person.name || !person.number) {
     return next(new AppError('Add name or number', 400));
+  }
 
-  const newPerson = await Person.create(person);
-  res.json(newPerson);
+  try {
+    const newPerson = await Person.create(person);
+    res.json(newPerson);
+  } catch (error) {
+    if (error instanceof mongoose.Error.ValidationError) {
+      return next({
+        message: error.errors.number.message,
+        statusCode: 400,
+        status: 'fail',
+        isOperational: true,
+      });
+    }
+    next(error);
+  }
 });
 
 const updatePerson = catchAsync(async (req, res, next) => {
