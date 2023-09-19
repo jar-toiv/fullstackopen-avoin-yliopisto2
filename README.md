@@ -1,7 +1,10 @@
 ## This repo contains FullstackOpen course exercises from part 3 Node.js and Express
 
-URL for Render.com: https://osa3-phonebook-done.onrender.com
+**URL for Render.com: https://osa3-phonebook-done.onrender.com/**
+
 Remember to wait for Render to give CPU resources for website to show up.
+
+Project is using production mode while on render.
 
 ## EsLint
 
@@ -38,7 +41,7 @@ module.exports = {
 ### PROCESS for Render.com Backend and Frontend.
 
 **TIP with render: Set env variable key:PORT and value: (what you want /3001) otherwise port is default 10k**
-Build the front from osa2 the phonebook in the project with command npm run build.
+Build the front from osa2 the phonebook in the project with command npm run build. Remember to edit and remove the localhost
 Take the folder and move it to the backend project folder.
 
 Use Express static to server your Build from the folder.
